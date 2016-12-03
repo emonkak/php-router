@@ -1,0 +1,31 @@
+{
+    "name": "emonkak/router",
+    "description": "A simple and generic router for HTTP request",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shota Nozaki",
+            "email": "emonkak@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "nikic/fast-route": "^1.0",
+        "phpbench/phpbench": "^0.10.0",
+        "phpunit/phpunit": "^4.4",
+        "satooshi/php-coveralls": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emonkak\\Router\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emonkak\\Router\\Benchmarks\\": "benchmarks/",
+            "Emonkak\\Router\\Tests\\": "tests/"
+        }
+    }
+}
