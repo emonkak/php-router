@@ -17,7 +17,7 @@ class RegexpRouter implements RoutableRouterInterface
     /**
      * @var mixed[]
      */
-    private $metadatas = [];
+    private $metadataList = [];
 
     /**
      * @var integer
@@ -52,7 +52,7 @@ class RegexpRouter implements RoutableRouterInterface
 
         $this->matchPatterns[] = $matchPattern;
         $this->capturePatterns[] = $capturePattern;
-        $this->metadatas[] = $metadata;
+        $this->metadataList[] = $metadata;
         $this->maxPatternLength = max(strlen($matchPattern), $this->maxPatternLength);
 
         return $this;
@@ -95,6 +95,7 @@ class RegexpRouter implements RoutableRouterInterface
     /**
      * @param string   $path
      * @param string[] $patternChunk
+     * @return array|null
      */
     protected function processChunk($path, array $patternChunk)
     {
@@ -105,7 +106,7 @@ class RegexpRouter implements RoutableRouterInterface
             $pattern = '#^(?:' . $this->capturePatterns[$index] . ')$#';
 
             if (preg_match($pattern, $path, $matches)) {
-                $metadata = $this->metadatas[$index];
+                $metadata = $this->metadataList[$index];
 
                 for ($i = 0, $l = (count($matches) >> 1) + 1; $i < $l; $i++) {
                     unset($matches[$i]);
