@@ -7,14 +7,8 @@ class TrieRouterBuilder extends AbstractRouterBuilder
     /**
      * {@inheritDoc}
      */
-    public function build()
+    public function prepareRouter()
     {
-        $router = new TrieRouter();
-
-        foreach ($this->routes as $path => $route) {
-            $router->route($path, $route);
-        }
-
-        return $router;
+        return new TrieRouter();
     }
 }

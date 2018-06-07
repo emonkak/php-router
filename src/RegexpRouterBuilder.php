@@ -7,14 +7,8 @@ class RegexpRouterBuilder extends AbstractRouterBuilder
     /**
      * {@inheritDoc}
      */
-    public function build()
+    public function prepareRouter()
     {
-        $router = new RegexpRouter();
-
-        foreach ($this->routes as $path => $handler) {
-            $router->route($path, $handler);
-        }
-
-        return $router;
+        return new RegexpRouter();
     }
 }

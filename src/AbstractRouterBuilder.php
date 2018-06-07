@@ -10,9 +10,9 @@ abstract class AbstractRouterBuilder
     protected $routes = [];
 
     /**
-     * @param string       $method
-     * @param string       $path
-     * @param string|array $handler
+     * @param string $method
+     * @param string $path
+     * @param mixed  $handler
      * @return $this
      */
     public function route($method, $path, $handler)
@@ -27,8 +27,8 @@ abstract class AbstractRouterBuilder
     }
 
     /**
-     * @param string       $path
-     * @param string|array $handler
+     * @param string $path
+     * @param mixed  $handler
      * @return $this
      */
     public function get($path, $handler)
@@ -37,8 +37,8 @@ abstract class AbstractRouterBuilder
     }
 
     /**
-     * @param string       $path
-     * @param string|array $handler
+     * @param string $path
+     * @param mixed  $handler
      * @return $this
      */
     public function post($path, $handler)
@@ -47,8 +47,8 @@ abstract class AbstractRouterBuilder
     }
 
     /**
-     * @param string       $path
-     * @param string|array $handler
+     * @param string $path
+     * @param mixed  $handler
      * @return $this
      */
     public function delete($path, $handler)
@@ -57,8 +57,8 @@ abstract class AbstractRouterBuilder
     }
 
     /**
-     * @param string       $path
-     * @param string|array $handler
+     * @param string $path
+     * @param mixed $handler
      * @return $this
      */
     public function put($path, $handler)
@@ -67,8 +67,8 @@ abstract class AbstractRouterBuilder
     }
 
     /**
-     * @param string       $path
-     * @param string|array $handler
+     * @param string $path
+     * @param mixed  $handler
      * @return $this
      */
     public function patch($path, $handler)
@@ -79,5 +79,19 @@ abstract class AbstractRouterBuilder
     /**
      * @return RouterInterface
      */
-    abstract public function build();
+    public function build()
+    {
+        $router = $this->prepareRouter();
+
+        foreach ($this->routes as $path => $route) {
+            $router->route($path, $route);
+        }
+
+        return $router;
+    }
+
+    /**
+     * @return RoutableRouterInterface
+     */
+    abstract protected function prepareRouter();
 }
