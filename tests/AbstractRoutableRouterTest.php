@@ -61,7 +61,7 @@ abstract class AbstractRoutableRouterTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider providerNotMatch
      */
-    public function testNotMatch($path)
+    public function testMatchFailure($path)
     {
         $router = $this->prepareRouter()
             ->route('/', 0)
