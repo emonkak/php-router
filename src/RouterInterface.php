@@ -9,7 +9,7 @@ interface RouterInterface
 {
     /**
      * @param string $path
-     * @return array|null The found data and parameters pair
+     * @return array|null The found handler and parameters pair
      */
     public function match($path);
 }

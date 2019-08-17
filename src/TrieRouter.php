@@ -6,7 +6,7 @@ class TrieRouter implements RoutableRouterInterface
 {
     const CHILDREN = 0;
     const NAME     = 1;
-    const DATA     = 2;
+    const HANDLER  = 2;
 
     const WILDCARD = '*';
 
@@ -21,7 +21,7 @@ class TrieRouter implements RoutableRouterInterface
     /**
      * {@inheritDoc}
      */
-    public function route($path, $data)
+    public function route($path, $handler)
     {
         $node = &$this->root;
 
@@ -50,7 +50,7 @@ class TrieRouter implements RoutableRouterInterface
             }
         }
 
-        $node[self::DATA] = $data;
+        $node[self::HANDLER] = $handler;
 
         return $this;
     }
@@ -80,11 +80,11 @@ class TrieRouter implements RoutableRouterInterface
             }
         }
 
-        if (!isset($node[self::DATA])) {
+        if (!isset($node[self::HANDLER])) {
             return null;
         }
 
-        return [$node[self::DATA], $params];
+        return [$node[self::HANDLER], $params];
     }
 
     public function trimRootSlash($path)

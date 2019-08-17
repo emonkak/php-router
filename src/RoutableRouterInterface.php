@@ -6,8 +6,8 @@ interface RoutableRouterInterface extends RouterInterface
 {
     /**
      * @param string $path
-     * @param mixed  $data
+     * @param mixed  $handler
      * @return $this
      */
-    public function route($path, $data);
+    public function route($path, $handler);
 }
