@@ -86,6 +86,7 @@ abstract class AbstractRoutableRouterTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [''],
+            ['//'],
             ['/foo/'],
             ['/bar/'],
             ['/baz/'],

@@ -64,7 +64,7 @@ class TrieRouter implements RoutableRouterInterface
         $params = [];
 
         if ($path !== '/') {
-            $parts = explode('/', ltrim($path, '/'));
+            $parts = explode('/', $this->trimRootSlash($path));
 
             foreach ($parts as $part) {
                 if (isset($node[self::CHILDREN][$part]) && $part !== self::WILDCARD) {
@@ -85,5 +85,10 @@ class TrieRouter implements RoutableRouterInterface
         }
 
         return [$node[self::DATA], $params];
+    }
+
+    public function trimRootSlash($path)
+    {
+        return $path !== '' && $path[0] === '/' ? substr($path, 1) : $path;
     }
 }
