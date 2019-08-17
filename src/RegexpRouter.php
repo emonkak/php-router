@@ -17,7 +17,7 @@ class RegexpRouter implements RoutableRouterInterface
     /**
      * @var mixed[]
      */
-    private $metadataList = [];
+    private $dataList = [];
 
     /**
      * @var integer
@@ -27,7 +27,7 @@ class RegexpRouter implements RoutableRouterInterface
     /**
      * {@inheritDoc}
      */
-    public function route($path, $metadata)
+    public function route($path, $data)
     {
         if ($path === '/') {
             $matchPattern = '/';
@@ -52,7 +52,7 @@ class RegexpRouter implements RoutableRouterInterface
 
         $this->matchPatterns[] = $matchPattern;
         $this->capturePatterns[] = $capturePattern;
-        $this->metadataList[] = $metadata;
+        $this->dataList[] = $data;
         $this->maxPatternLength = max(strlen($matchPattern), $this->maxPatternLength);
 
         return $this;
@@ -106,13 +106,13 @@ class RegexpRouter implements RoutableRouterInterface
             $pattern = '#^(?:' . $this->capturePatterns[$index] . ')$#';
 
             if (preg_match($pattern, $path, $matches)) {
-                $metadata = $this->metadataList[$index];
+                $data = $this->dataList[$index];
 
                 for ($i = 0, $l = (count($matches) >> 1) + 1; $i < $l; $i++) {
                     unset($matches[$i]);
                 }
 
-                return [$metadata, $matches];
+                return [$data, $matches];
             }
         }
 
