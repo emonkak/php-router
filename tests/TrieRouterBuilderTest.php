@@ -5,8 +5,8 @@ namespace Emonkak\Router\Tests;
 use Emonkak\Router\TrieRouterBuilder;
 
 /**
- * @covers Emonkak\Router\TrieRouterBuilder
- * @covers Emonkak\Router\AbstractRouterBuilder
+ * @covers \Emonkak\Router\TrieRouterBuilder
+ * @covers \Emonkak\Router\AbstractRouterBuilder
  */
 class TrieRouterBuilderTest extends AbstractRouterBuilderTest
 {

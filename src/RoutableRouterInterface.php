@@ -1,13 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Emonkak\Router;
 
+/**
+ * @template THandler
+ * @template TParam
+ * @extends RoutableInterface<THandler,TParam>
+ */
 interface RoutableRouterInterface extends RouterInterface
 {
     /**
-     * @param string $path
-     * @param mixed  $handler
-     * @return $this
+     * @param THandler $handler
      */
-    public function route($path, $handler);
+    public function addRoute(string $path, $handler): void;
 }

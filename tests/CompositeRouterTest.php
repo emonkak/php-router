@@ -2,10 +2,11 @@
 
 namespace Emonkak\Router\Tests;
 
-use Emonkak\Router\RouterInterface;
 use Emonkak\Router\CompositeRouter;
+use Emonkak\Router\RouterInterface;
+use PHPUnit\Framework\TestCase;
 
-class CompositeRouterTest extends \PHPUnit_Framework_TestCase
+class CompositeRouterTest extends TestCase
 {
     public function testMatch()
     {
@@ -14,21 +15,21 @@ class CompositeRouterTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('match')
             ->with($this->identicalTo('/qux'))
-            ->will($this->returnArgument(0));
+            ->willReturn(['/qux', []]);
 
         $router2 = $this->createMock(RouterInterface::class);
         $router2
             ->expects($this->once())
             ->method('match')
             ->with($this->identicalTo('/quux'))
-            ->will($this->returnArgument(0));
+            ->willReturn(['/quux', []]);
 
         $router3 = $this->createMock(RouterInterface::class);
         $router3
             ->expects($this->once())
             ->method('match')
             ->with($this->identicalTo('/baz/corge'))
-            ->will($this->returnArgument(0));
+            ->willReturn(['/baz/corge', []]);
 
         $compositeRouter = new CompositeRouter([
             '/foo/' => $router1,
@@ -36,9 +37,9 @@ class CompositeRouterTest extends \PHPUnit_Framework_TestCase
             '/' => $router3,
         ]);
 
-        $this->assertSame('/qux', $compositeRouter->match('/foo/qux'));
-        $this->assertSame('/quux', $compositeRouter->match('/bar/quux'));
-        $this->assertSame('/baz/corge', $compositeRouter->match('/baz/corge'));
+        $this->assertSame(['/qux', []], $compositeRouter->match('/foo/qux'));
+        $this->assertSame(['/quux', []], $compositeRouter->match('/bar/quux'));
+        $this->assertSame(['/baz/corge', []], $compositeRouter->match('/baz/corge'));
     }
 
     public function testMatchFailure()
@@ -48,26 +49,26 @@ class CompositeRouterTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('match')
             ->with($this->identicalTo('/qux'))
-            ->will($this->returnArgument(0));
+            ->willReturn(['/qux', []]);
 
         $router2 = $this->createMock(RouterInterface::class);
         $router2
             ->expects($this->once())
             ->method('match')
             ->with($this->identicalTo('/quux'))
-            ->will($this->returnArgument(0));
+            ->willReturn(['/quux', []]);
 
         $router3 = $this->createMock(RouterInterface::class);
         $router3
             ->expects($this->at(0))
             ->method('match')
             ->with($this->identicalTo('/baz/corge'))
-            ->will($this->returnArgument(0));
+            ->willReturn(['/baz/corge', []]);
         $router3
             ->expects($this->at(1))
             ->method('match')
             ->with($this->identicalTo('/'))
-            ->will($this->returnArgument(0));
+            ->willReturn(['/', []]);
 
         $compositeRouter = new CompositeRouter([
             '/foo/' => $router1,
@@ -75,10 +76,10 @@ class CompositeRouterTest extends \PHPUnit_Framework_TestCase
             '/' => $router3,
         ]);
 
-        $this->assertSame('/qux', $compositeRouter->match('/foo/qux'));
-        $this->assertSame('/quux', $compositeRouter->match('/bar/quux'));
-        $this->assertSame('/baz/corge', $compositeRouter->match('/baz/corge'));
-        $this->assertSame('/', $compositeRouter->match('/'));
+        $this->assertSame(['/qux', []], $compositeRouter->match('/foo/qux'));
+        $this->assertSame(['/quux', []], $compositeRouter->match('/bar/quux'));
+        $this->assertSame(['/baz/corge', []], $compositeRouter->match('/baz/corge'));
+        $this->assertSame(['/', []], $compositeRouter->match('/'));
         $this->assertNull((new CompositeRouter([]))->match('/'));
     }
 }

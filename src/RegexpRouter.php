@@ -1,7 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Emonkak\Router;
 
+/**
+ * @template THandler
+ * @implements RoutableRouterInterface<THandler,string>
+ */
 class RegexpRouter implements RoutableRouterInterface
 {
     /**
@@ -15,19 +21,19 @@ class RegexpRouter implements RoutableRouterInterface
     private $capturePatterns = [];
 
     /**
-     * @var mixed[]
+     * @var THandler[]
      */
     private $handlers = [];
 
     /**
-     * @var integer
+     * @var int
      */
     private $maxPatternLength = 0;
 
     /**
-     * {@inheritDoc}
+     * @param THandler $handler
      */
-    public function route($path, $handler)
+    public function addRoute(string $path, $handler): void
     {
         if ($path === '/') {
             $matchPattern = '/';
@@ -54,14 +60,12 @@ class RegexpRouter implements RoutableRouterInterface
         $this->capturePatterns[] = $capturePattern;
         $this->handlers[] = $handler;
         $this->maxPatternLength = max(strlen($matchPattern), $this->maxPatternLength);
-
-        return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function match($path)
+    public function match(string $path): ?array
     {
         $chunkSize = $this->computeChunkSize();
         if ($chunkSize < 1) {
@@ -84,20 +88,16 @@ class RegexpRouter implements RoutableRouterInterface
         }
     }
 
-    /**
-     * @return integer
-     */
-    protected function computeChunkSize()
+    protected function computeChunkSize(): int
     {
         return (int) ((0x8000 - 9) / ($this->maxPatternLength + 3));
     }
 
     /**
-     * @param string   $path
      * @param string[] $patternChunk
-     * @return array|null
+     * @return ?array{0:THandler,1:string[]}
      */
-    protected function processChunk($path, array $patternChunk)
+    protected function processChunk(string $path, array $patternChunk)
     {
         $pattern = '#^(?:' . implode('()|', $patternChunk) . '())$#';
 

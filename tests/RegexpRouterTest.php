@@ -5,29 +5,28 @@ namespace Emonkak\Router\Tests;
 use Emonkak\Router\RegexpRouter;
 
 /**
- * @covers Emonkak\Router\RegexpRouter
+ * @covers \Emonkak\Router\RegexpRouter
  */
 class RegexpRouterTest extends AbstractRoutableRouterTest
 {
-    /**
-     * @expectedException OverflowException
-     */
     public function testMatchThrowsOverflowException()
     {
+        $this->expectException(\OverflowException::class);
+
         $path = str_repeat('/foo', 10000);
 
-        $router = (new RegexpRouter())
-            ->route($path, 'bar');
+        $router = new RegexpRouter();
+        $router->addRoute($path, 'bar');
 
         $router->match($path);
     }
 
     public function testChunkedMatch()
     {
-        $router = (new RegexpRouter());
+        $router = new RegexpRouter();
 
         for ($i = 0; $i < 100; $i++) {
-            $router->route(str_repeat('/foo', $i), $i);
+            $router->addRoute(str_repeat('/foo', $i), $i);
         }
 
         $match = $router->match('/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo');

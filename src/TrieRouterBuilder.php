@@ -1,13 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Emonkak\Router;
 
+/**
+ * @template THandler
+ * @extends AbstractRouterBuilder<THandler,string>
+ */
 class TrieRouterBuilder extends AbstractRouterBuilder
 {
     /**
-     * {@inheritDoc}
+     * @return TrieRouter<THandler>
      */
-    public function prepareRouter()
+    protected function prepareRouter(): RoutableRouterInterface
     {
         return new TrieRouter();
     }

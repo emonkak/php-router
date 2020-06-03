@@ -2,27 +2,29 @@
 
 namespace Emonkak\Router\Tests;
 
-abstract class AbstractRoutableRouterTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+abstract class AbstractRoutableRouterTest extends TestCase
 {
     /**
      * @dataProvider providerMatch
      */
     public function testMatch($path, $expectedMetadata, array $expectedParams)
     {
-        $router = $this->prepareRouter()
-            ->route('/', 0)
-            ->route('/foo', 1)
-            ->route('/bar', 2)
-            ->route('/baz', 3)
-            ->route('/foo/:first', 4)
-            ->route('/bar/:first', 5)
-            ->route('/baz/:first', 6)
-            ->route('/foo/:first/qux', 7)
-            ->route('/bar/:first/quux', 8)
-            ->route('/baz/:first/foobar', 9)
-            ->route('/foo/:first/qux/:second', 10)
-            ->route('/bar/:first/quux/:second', 11)
-            ->route('/baz/:first/foobar/:second', 12);
+        $router = $this->prepareRouter();
+        $router->addRoute('/', 0);
+        $router->addRoute('/foo', 1);
+        $router->addRoute('/bar', 2);
+        $router->addRoute('/baz', 3);
+        $router->addRoute('/foo/:first', 4);
+        $router->addRoute('/bar/:first', 5);
+        $router->addRoute('/baz/:first', 6);
+        $router->addRoute('/foo/:first/qux', 7);
+        $router->addRoute('/bar/:first/quux', 8);
+        $router->addRoute('/baz/:first/foobar', 9);
+        $router->addRoute('/foo/:first/qux/:second', 10);
+        $router->addRoute('/bar/:first/quux/:second', 11);
+        $router->addRoute('/baz/:first/foobar/:second', 12);
 
         $match = $router->match($path);
         $this->assertEquals([$expectedMetadata, $expectedParams], $match);
@@ -63,20 +65,20 @@ abstract class AbstractRoutableRouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testMatchFailure($path)
     {
-        $router = $this->prepareRouter()
-            ->route('/', 0)
-            ->route('/foo', 1)
-            ->route('/bar', 2)
-            ->route('/baz', 3)
-            ->route('/foo/:first', 4)
-            ->route('/bar/:first', 5)
-            ->route('/baz/:first', 6)
-            ->route('/foo/:first/qux', 7)
-            ->route('/bar/:first/quux', 8)
-            ->route('/baz/:first/foobar', 9)
-            ->route('/foo/:first/qux/:second', 10)
-            ->route('/bar/:first/quux/:second', 11)
-            ->route('/baz/:first/foobar/:second', 12);
+        $router = $this->prepareRouter();
+        $router->addRoute('/', 0);
+        $router->addRoute('/foo', 1);
+        $router->addRoute('/bar', 2);
+        $router->addRoute('/baz', 3);
+        $router->addRoute('/foo/:first', 4);
+        $router->addRoute('/bar/:first', 5);
+        $router->addRoute('/baz/:first', 6);
+        $router->addRoute('/foo/:first/qux', 7);
+        $router->addRoute('/bar/:first/quux', 8);
+        $router->addRoute('/baz/:first/foobar', 9);
+        $router->addRoute('/foo/:first/qux/:second', 10);
+        $router->addRoute('/bar/:first/quux/:second', 11);
+        $router->addRoute('/baz/:first/foobar/:second', 12);
 
         $match = $router->match($path);
         $this->assertNull($match);
@@ -101,7 +103,7 @@ abstract class AbstractRoutableRouterTest extends \PHPUnit_Framework_TestCase
         $router = $this->prepareRouter();
 
         for ($i = 0; $i < 100; $i++) {
-            $router->route(str_repeat('/foo', $i), $i);
+            $router->addRoute(str_repeat('/foo', $i), $i);
         }
 
         $match = $router->match('/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo');

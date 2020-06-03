@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Emonkak\Router\Benchmarks;
 
 use Emonkak\Router\RouterInterface;
@@ -51,20 +53,20 @@ abstract class AbstractRoutableRouterBench
 
     protected function buildRouter()
     {
-        return $this->prepareRouter()
-            ->route('/', 0)
-            ->route('/foo/', 1)
-            ->route('/bar/', 2)
-            ->route('/baz/', 3)
-            ->route('/foo/:first', 4)
-            ->route('/bar/:first', 5)
-            ->route('/baz/:first', 6)
-            ->route('/foo/:first/qux', 7)
-            ->route('/bar/:first/quux', 8)
-            ->route('/baz/:first/foobar', 9)
-            ->route('/foo/:first/qux/:second', 10)
-            ->route('/bar/:first/quux/:second', 11)
-            ->route('/baz/:first/foobar/:second', 12);
+        $router = $this->prepareRouter();
+        $router->addroute('/', 0);
+        $router->addroute('/foo/', 1);
+        $router->addroute('/bar/', 2);
+        $router->addroute('/baz/', 3);
+        $router->addroute('/foo/:first', 4);
+        $router->addroute('/bar/:first', 5);
+        $router->addroute('/baz/:first', 6);
+        $router->addroute('/foo/:first/qux', 7);
+        $router->addroute('/bar/:first/quux', 8);
+        $router->addroute('/baz/:first/foobar', 9);
+        $router->addroute('/foo/:first/qux/:second', 10);
+        $router->addroute('/bar/:first/quux/:second', 11);
+        $router->addroute('/baz/:first/foobar/:second', 12);
     }
 
     abstract protected function prepareRouter();
