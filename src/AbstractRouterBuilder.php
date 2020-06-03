@@ -1,21 +1,70 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Emonkak\Router;
 
+/**
+ * @template THandler
+ * @template TParam
+ */
 abstract class AbstractRouterBuilder
 {
     /**
-     * @var array
+     * @var array<string,array<string,THandler>>
      */
     protected $routes = [];
 
     /**
-     * @param string $method
-     * @param string $path
-     * @param mixed  $handler
+     * @param THandler $handler
      * @return $this
      */
-    public function route($method, $path, $handler)
+    public function get(string $path, $handler): self
+    {
+        return $this->route('GET', $path, $handler);
+    }
+
+    /**
+     * @param THandler $handler
+     * @return $this
+     */
+    public function post(string $path, $handler): self
+    {
+        return $this->route('POST', $path, $handler);
+    }
+
+    /**
+     * @param THandler $handler
+     * @return $this
+     */
+    public function delete(string $path, $handler): self
+    {
+        return $this->route('DELETE', $path, $handler);
+    }
+
+    /**
+     * @param THandler $handler
+     * @return $this
+     */
+    public function put(string $path, $handler): self
+    {
+        return $this->route('PUT', $path, $handler);
+    }
+
+    /**
+     * @param THandler $handler
+     * @return $this
+     */
+    public function patch(string $path, $handler): self
+    {
+        return $this->route('PATCH', $path, $handler);
+    }
+
+    /**
+     * @param THandler $handler
+     * @return $this
+     */
+    public function route(string $method, string $path, $handler): self
     {
         if (!isset($this->routes[$path])) {
             $this->routes[$path] = [];
@@ -27,71 +76,21 @@ abstract class AbstractRouterBuilder
     }
 
     /**
-     * @param string $path
-     * @param mixed  $handler
-     * @return $this
+     * @return RouterInterface<THandler,TParam>
      */
-    public function get($path, $handler)
-    {
-        return $this->route('GET', $path, $handler);
-    }
-
-    /**
-     * @param string $path
-     * @param mixed  $handler
-     * @return $this
-     */
-    public function post($path, $handler)
-    {
-        return $this->route('POST', $path, $handler);
-    }
-
-    /**
-     * @param string $path
-     * @param mixed  $handler
-     * @return $this
-     */
-    public function delete($path, $handler)
-    {
-        return $this->route('DELETE', $path, $handler);
-    }
-
-    /**
-     * @param string $path
-     * @param mixed $handler
-     * @return $this
-     */
-    public function put($path, $handler)
-    {
-        return $this->route('PUT', $path, $handler);
-    }
-
-    /**
-     * @param string $path
-     * @param mixed  $handler
-     * @return $this
-     */
-    public function patch($path, $handler)
-    {
-        return $this->route('PATCH', $path, $handler);
-    }
-
-    /**
-     * @return RouterInterface
-     */
-    public function build()
+    public function build(): RouterInterface
     {
         $router = $this->prepareRouter();
 
         foreach ($this->routes as $path => $route) {
-            $router->route($path, $route);
+            $router->addRoute($path, $route);
         }
 
         return $router;
     }
 
     /**
-     * @return RoutableRouterInterface
+     * @return RoutableRouterInterface<THandler,TParam>
      */
-    abstract protected function prepareRouter();
+    abstract protected function prepareRouter(): RoutableRouterInterface;
 }

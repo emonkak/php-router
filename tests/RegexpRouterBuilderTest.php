@@ -5,8 +5,8 @@ namespace Emonkak\Router\Tests;
 use Emonkak\Router\RegexpRouterBuilder;
 
 /**
- * @covers Emonkak\Router\RegexpRouterBuilder
- * @covers Emonkak\Router\AbstractRouterBuilder
+ * @covers \Emonkak\Router\RegexpRouterBuilder
+ * @covers \Emonkak\Router\AbstractRouterBuilder
  */
 class RegexpRouterBuilderTest extends AbstractRouterBuilderTest
 {

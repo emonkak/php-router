@@ -1,0 +1,13 @@
+{
+    "require": {
+        "nikic/fast-route": "^1.0",
+        "php": ">=7.1",
+        "phpbench/phpbench": "^0.17"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emonkak\\Router\\": "../src/",
+            "Emonkak\\Router\\Benchmarks\\": "src/"
+        }
+    }
+}

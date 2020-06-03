@@ -1,16 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Emonkak\Router;
 
+/**
+ * @template THandler
+ * @template TParam
+ */
 class CompositeRouter implements RouterInterface
 {
     /**
-     * @var array
+     * @var RouterInterface<THandler,TParam>[]
      */
     private $routers;
 
     /**
-     * @param array $routers
+     * @param RouterInterface<THandler,TParam>[] $routers
      */
     public function __construct(array $routers)
     {
@@ -18,9 +24,9 @@ class CompositeRouter implements RouterInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function match($path)
+    public function match(string $path): ?array
     {
         foreach ($this->routers as $prefix => $router) {
             if (strpos($path, $prefix) === 0) {

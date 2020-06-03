@@ -2,9 +2,9 @@
 
 namespace Emonkak\Router\Tests;
 
-use Emonkak\Router\RegexpRouterBuilder;
+use PHPUnit\Framework\TestCase;
 
-abstract class AbstractRouterBuilderTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractRouterBuilderTest extends TestCase
 {
     public function testBuild()
     {
@@ -18,7 +18,7 @@ abstract class AbstractRouterBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals([
             ['GET' => 'IndexUser'],
-            []
+            [],
         ], $router->match('/users'));
         $this->assertEquals([
             [
@@ -27,7 +27,7 @@ abstract class AbstractRouterBuilderTest extends \PHPUnit_Framework_TestCase
                 'PUT' => 'UpdateUser',
                 'DELETE' => 'DestroyUser',
             ],
-            ['user_id' => '123']
+            ['user_id' => '123'],
         ], $router->match('/users/123'));
     }
 }

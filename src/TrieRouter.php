@@ -1,12 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Emonkak\Router;
 
+/**
+ * @template THandler
+ * @implements RoutableRouterInterface<THandler,string>
+ */
 class TrieRouter implements RoutableRouterInterface
 {
     const CHILDREN = 0;
-    const NAME     = 1;
-    const HANDLER  = 2;
+    const NAME = 1;
+    const HANDLER = 2;
 
     const WILDCARD = '*';
 
@@ -19,9 +25,9 @@ class TrieRouter implements RoutableRouterInterface
     ];
 
     /**
-     * {@inheritDoc}
+     * @param THandler $handler
      */
-    public function route($path, $handler)
+    public function addRoute(string $path, $handler): void
     {
         $node = &$this->root;
 
@@ -51,14 +57,12 @@ class TrieRouter implements RoutableRouterInterface
         }
 
         $node[self::HANDLER] = $handler;
-
-        return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function match($path)
+    public function match(string $path): ?array
     {
         $node = $this->root;
         $params = [];
@@ -87,7 +91,7 @@ class TrieRouter implements RoutableRouterInterface
         return [$node[self::HANDLER], $params];
     }
 
-    public function trimRootSlash($path)
+    public function trimRootSlash(string $path): string
     {
         return $path !== '' && $path[0] === '/' ? substr($path, 1) : $path;
     }
