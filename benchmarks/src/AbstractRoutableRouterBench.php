@@ -67,6 +67,7 @@ abstract class AbstractRoutableRouterBench
         $router->addroute('/foo/:first/qux/:second', 10);
         $router->addroute('/bar/:first/quux/:second', 11);
         $router->addroute('/baz/:first/foobar/:second', 12);
+        return $router;
     }
 
     abstract protected function prepareRouter();
